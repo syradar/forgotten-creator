@@ -5,33 +5,22 @@ import { useTranslation } from 'react-i18next'
 // import { trpc } from '../utils/trpc'
 
 export const Sidebar = () => {
-  const { i18n } = useTranslation()
+  const { t } = useTranslation()
   return (
-    <div className="w-64 border-r bg-white shadow-sm">
+    <div className="flex w-64 min-w-[16rem] flex-col gap-4 border-r bg-white shadow-sm">
       <header className="p-4 font-bold hover:text-red-500">
         <Link href="/">Yxans Klagan</Link>
       </header>
       <nav className="px-2">
         <ul>
           <li>
-            <SidebarLink to="/village">Village</SidebarLink>
+            <SidebarLink to="/village">{t('common:Menu.Village')}</SidebarLink>
           </li>
         </ul>
       </nav>
-      <button
-        type="button"
-        onClick={() => i18n.changeLanguage('en')}
-        className="bg-red-500 p-2 font-bold text-white hover:bg-red-700"
-      >
-        engelska
-      </button>
-      <button
-        type="button"
-        onClick={() => i18n.changeLanguage('sv')}
-        className="bg-red-500 p-2 font-bold text-white hover:bg-red-700"
-      >
-        svenska
-      </button>
+      <div className="mt-auto mb-4">
+        <LanguageSwitcher />
+      </div>
     </div>
   )
 }
@@ -51,6 +40,41 @@ const SidebarLink = ({ children, to }: SidebarLinkProps) => {
         className={`block rounded-lg p-2 hover:bg-gray-200
       ${isActive ? 'bg-gray-200' : ''}
       `}
+      >
+        {children}
+      </a>
+    </Link>
+  )
+}
+
+const LanguageSwitcher = () => {
+  const { i18n } = useTranslation()
+
+  return (
+    <div className="flex justify-center gap-2">
+      <LanguageButton locale="en" active={i18n.language === 'en'}>
+        English
+      </LanguageButton>
+      <LanguageButton locale="sv" active={i18n.language === 'sv'}>
+        Svenska
+      </LanguageButton>
+    </div>
+  )
+}
+
+interface LanguageButtonProps {
+  children: React.ReactNode
+  active: boolean
+  locale: string
+}
+const LanguageButton = ({ children, active, locale }: LanguageButtonProps) => {
+  const router = useRouter()
+  return (
+    <Link href={router.asPath} locale={locale} passHref>
+      <a
+        className={`rounded-lg px-2 py-1 text-sm font-medium hover:bg-gray-200 ${
+          active ? 'bg-gray-200' : ''
+        }`}
       >
         {children}
       </a>

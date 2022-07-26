@@ -1,3 +1,7 @@
 {
-  "AppTitle": "Yxans Klagan Next"
+  "AppTitle": "Yxans Klagan Next",
+  "VillageTitle": "Create your village",
+  "Menu": {
+    "Village": "Village"
+  }
 }

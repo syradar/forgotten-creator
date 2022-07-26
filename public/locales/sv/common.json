@@ -1,3 +1,7 @@
 {
-  "AppTitle": "Yxans Klagan Next fast på svenska"
+  "AppTitle": "Yxans Klagan Next fast på svenska",
+  "VillageTitle": "Skapa din by",
+  "Menu": {
+    "Village": "By"
+  }
 }

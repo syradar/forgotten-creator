@@ -21,6 +21,9 @@ const MyApp: AppType = ({
   )
 }
 
+// The types are sort of correct but not really.
+// This is a workaround to get it to work.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TranlsatedApp = appWithTranslation(MyApp as any)
 
 const getBaseUrl = () => {
