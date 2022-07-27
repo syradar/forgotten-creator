@@ -11,7 +11,7 @@ export const Layout = ({ children }: LayoutProps) => {
     <>
       <main className="flex h-screen bg-gray-100 text-gray-800">
         <Sidebar />
-        <div className="p-4">{children}</div>
+        <div className="w-full px-8 py-4">{children}</div>
       </main>
     </>
   )
