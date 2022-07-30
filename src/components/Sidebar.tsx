@@ -5,16 +5,16 @@ import { useTranslation } from 'react-i18next'
 // import { trpc } from '../utils/trpc'
 
 export const Sidebar = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation(['common', 'sidebar'])
   return (
     <div className="flex min-w-[16rem] flex-col gap-4 border-r bg-white shadow-sm lg:w-64">
       <header className="p-4 font-bold hover:text-red-500">
-        <Link href="/">Yxans Klagan</Link>
+        <Link href="/">{t('common:AppTitle')}</Link>
       </header>
       <nav className="px-2">
         <ul>
           <li>
-            <SidebarLink to="/village">{t('common:Menu.Village')}</SidebarLink>
+            <SidebarLink to="/village">{t('sidebar:Menu.Village')}</SidebarLink>
           </li>
         </ul>
       </nav>

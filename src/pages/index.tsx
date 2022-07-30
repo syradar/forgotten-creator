@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 // import { trpc } from '../utils/trpc'
 
 const Home: NextPage = () => {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation()
   return (
     <>
       <Head>
@@ -20,7 +20,7 @@ const Home: NextPage = () => {
 
       <div className="">
         <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
-          {t('common:AppTitle')}
+          {t('home:PageTitle')}
         </h1>
         <p className="text-2xl text-gray-700">This stack uses:</p>
 
@@ -41,7 +41,7 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale, ['common', 'sidebar', 'home'])),
       // Will be passed to the page component as props
     },
   }
