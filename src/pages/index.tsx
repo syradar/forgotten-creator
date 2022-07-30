@@ -32,9 +32,7 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
-
-export async function getServerSideProps({ locale }: { locale: string }) {
+export const getServerSideProps = async ({ locale }: { locale: string }) => {
   if (process.env.NODE_ENV === 'development') {
     await i18n?.reloadResources().then(() => {
       console.log('reloaded resources')
@@ -48,3 +46,5 @@ export async function getServerSideProps({ locale }: { locale: string }) {
     },
   }
 }
+
+export default Home

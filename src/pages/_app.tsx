@@ -4,6 +4,7 @@ import { SessionProvider } from 'next-auth/react'
 import { appWithTranslation } from 'next-i18next'
 import type { AppType } from 'next/dist/shared/lib/utils'
 import superjson from 'superjson'
+import nextI18nextConfig from '../../next-i18next.config'
 import { Layout } from '../components/Layout'
 import type { AppRouter } from '../server/router'
 import '../styles/globals.css'
@@ -24,7 +25,7 @@ const MyApp: AppType = ({
 // The types are sort of correct but not really.
 // This is a workaround to get it to work.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const TranlsatedApp = appWithTranslation(MyApp as any)
+const TranlsatedApp = appWithTranslation(MyApp as any, nextI18nextConfig)
 
 const getBaseUrl = () => {
   if (typeof window !== 'undefined') {
