@@ -8,6 +8,7 @@ import nextI18nextConfig from '../../next-i18next.config'
 
 const Home: NextPage = () => {
   const { t } = useTranslation()
+
   return (
     <>
       <Head>
@@ -44,7 +45,7 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => {
     props: {
       ...(await serverSideTranslations(
         locale,
-        ['common', 'sidebar', 'home'],
+        ['common', 'sidebar', 'home', 'village'],
         nextI18nextConfig,
       )),
       // Will be passed to the page component as props

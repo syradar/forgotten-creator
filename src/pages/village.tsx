@@ -11,7 +11,7 @@ import { PlusIcon } from '../components/icons/PlusIcon'
 import { Parchment2 } from '../components/Parchment2'
 import { Stack } from '../components/Stack'
 import { Stat } from '../components/Stat'
-import { transCombine } from '../functions/functions'
+import { tc } from '../functions/functions'
 import { Inn } from '../village/inn'
 import { ValidLanguage } from '../village/language'
 import { createRandomVillage, Village } from '../village/village'
@@ -67,9 +67,7 @@ const VillageView = ({ village }: VillageViewProps) => {
   return (
     <Parchment2>
       <CardHeader>{village.name}</CardHeader>
-      <div className="mb-6">
-        {t(transCombine('village:Size', village.size))}
-      </div>
+      <div className="mb-6">{t(tc('village:Size', village.size))}</div>
 
       <Stack.Vertical>
         <div className="flex flex-wrap gap-4">
@@ -80,7 +78,7 @@ const VillageView = ({ village }: VillageViewProps) => {
             {village.age} {t('village:Years')}
           </Stat>
           <Stat flexGreedy label={t('village:Founded')}>
-            {t(transCombine('village:Ages', village.builtWhen))}
+            {t(tc('village:Ages', village.builtWhen))}
           </Stat>
         </div>
 
@@ -88,13 +86,13 @@ const VillageView = ({ village }: VillageViewProps) => {
           <div className="mb-2 text-xl font-bold">{t('village:Quirks')}</div>
           <div className="flex flex-wrap gap-4">
             <Stat flexGreedy label={t('village:Problems.Problem')}>
-              {t(transCombine('village:Problems', village.problem))}
+              {t(tc('village:Problems', village.problem))}
             </Stat>
             <Stat flexGreedy label={t('village:Fames.Fame')}>
-              {t(transCombine('village:Fames', village.fame))}
+              {t(tc('village:Fames', village.fame))}
             </Stat>
             <Stat flexGreedy label={t('village:Oddities.Oddity')}>
-              {t(transCombine('village:Oddities', village.oddity))}
+              {t(tc('village:Oddities', village.oddity))}
             </Stat>
           </div>
         </section>
@@ -105,15 +103,10 @@ const VillageView = ({ village }: VillageViewProps) => {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <Stat label={t('village:Leader.Type.Type')}>
-                {t(transCombine('village:Leader.Type', village.leader.type))}
+                {t(tc('village:Leader.Type', village.leader.type))}
               </Stat>
               <Stat label={t('village:Leader.Oddities.Oddity')}>
-                {t(
-                  transCombine(
-                    'village:Leader.Oddities',
-                    village.leader.oddity,
-                  ),
-                )}
+                {t(tc('village:Leader.Oddities', village.leader.oddity))}
               </Stat>
             </div>
           </section>
@@ -135,9 +128,7 @@ const VillageView = ({ village }: VillageViewProps) => {
                       key={institution.id}
                       className="rounded border p-4 font-medium"
                     >
-                      {t(
-                        transCombine('village:Institutions', institution.type),
-                      )}
+                      {t(tc('village:Institutions', institution.type))}
                     </div>
                   ))}
                 </div>
@@ -161,7 +152,7 @@ const InnView = ({ inn }: { inn: Inn }) => {
         <div>
           <div className="text-sm">{t('village:Inns.Oddities.Oddity')}</div>
           <div className="font-medium">
-            {t(transCombine('village:Inns.Oddities', inn.oddity))}
+            {t(tc('village:Inns.Oddities', inn.oddity))}
           </div>
         </div>
         <div>
@@ -169,13 +160,13 @@ const InnView = ({ inn }: { inn: Inn }) => {
             {t('village:Inns.Specialities.Speciality')}
           </div>
           <div className="font-medium">
-            {t(transCombine('village:Inns.Specialities', inn.speciality))}
+            {t(tc('village:Inns.Specialities', inn.speciality))}
           </div>
         </div>
         <div>
           <div className="text-sm">{t('village:Inns.Guests.Guest')}</div>
           <div className="font-medium">
-            {t(transCombine('village:Inns.Guests', inn.guest))}
+            {t(tc('village:Inns.Guests', inn.guest))}
           </div>
         </div>
       </div>
@@ -194,7 +185,7 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => {
     props: {
       ...(await serverSideTranslations(
         locale,
-        ['common', 'sidebar', 'village'],
+        ['common', 'sidebar', 'home', 'village'],
         nextI18nextConfig,
       )),
       // Will be passed to the page component as props

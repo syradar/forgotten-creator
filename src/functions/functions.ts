@@ -25,5 +25,7 @@ export const sortByProperty = <T>(
   order: 'asc' | 'desc' = 'desc',
 ): T[] => [...arr].sort(propertyComparator(key, order))
 
-export const transCombine = (nsAndObject: string, key: string) =>
-  `${nsAndObject}.${key}`
+/**
+ * Combine a static namespace + object key with a dynamic sub key.
+ */
+export const tc = (nsAndObject: string, key: string) => `${nsAndObject}.${key}`
