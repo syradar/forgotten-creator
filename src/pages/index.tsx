@@ -1,7 +1,8 @@
 import type { NextPage } from 'next'
+import { i18n } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import { useTranslation } from 'react-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 // import { trpc } from '../utils/trpc'
 
 const Home: NextPage = () => {
@@ -33,10 +34,16 @@ const Home: NextPage = () => {
 
 export default Home
 
-export async function getStaticProps({ locale }: { locale: string }) {
+export async function getServerSideProps({ locale }: { locale: string }) {
+  if (process.env.NODE_ENV === 'development') {
+    await i18n?.reloadResources().then(() => {
+      console.log('reloaded resources')
+    })
+  }
+
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'footer'])),
+      ...(await serverSideTranslations(locale, ['common'])),
       // Will be passed to the page component as props
     },
   }
