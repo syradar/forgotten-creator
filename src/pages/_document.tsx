@@ -1,10 +1,10 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
-import nextI18nextConfig from '../../next-i18next.config'
+import i18n from '../../next-i18next.config.js'
 
 class MyDocument extends Document {
   render() {
     const currentLocale =
-      this.props.__NEXT_DATA__.locale || nextI18nextConfig.i18n.defaultLocale
+      this.props.__NEXT_DATA__.locale || i18n.i18n.defaultLocale
     return (
       <Html lang={currentLocale}>
         <Head>

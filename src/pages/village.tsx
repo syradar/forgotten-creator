@@ -4,6 +4,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import nextI18nextConfig from '../../next-i18next.config'
 import { Button } from '../components/Button'
 import { CardHeader } from '../components/Card'
 import { PlusIcon } from '../components/icons/PlusIcon'
@@ -191,11 +192,11 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, [
-        'common',
-        'sidebar',
-        'village',
-      ])),
+      ...(await serverSideTranslations(
+        locale,
+        ['common', 'sidebar', 'village'],
+        nextI18nextConfig,
+      )),
       // Will be passed to the page component as props
     },
   }

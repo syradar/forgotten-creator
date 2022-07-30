@@ -22,7 +22,8 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
-    "ni18n.config.mjs"
+    "ni18n.config.mjs",
+    "next-i18next.config.js"
   ],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,5 @@
-import i18n from './next-i18next.config.js'
 import { env as _env } from './src/env/server.mjs'
-
+import i18n from './next-i18next.config.js'
 /**
  * Don't be scared of the generics here.
  * All they do is to give us autocompletion when using this.
@@ -13,7 +12,11 @@ function defineNextConfig(config) {
   return config
 }
 
-console.log(i18n)
+console.log({
+  reactStrictMode: true,
+  swcMinify: true,
+  ...i18n,
+})
 
 export default defineNextConfig({
   reactStrictMode: true,
