@@ -24,3 +24,6 @@ export const sortByProperty = <T>(
   arr: T[],
   order: 'asc' | 'desc' = 'desc',
 ): T[] => [...arr].sort(propertyComparator(key, order))
+
+export const transCombine = (nsAndObject: string, key: string) =>
+  `${nsAndObject}.${key}`

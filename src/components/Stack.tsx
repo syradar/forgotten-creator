@@ -4,13 +4,7 @@ interface StackProps {
   gap?: StackGap
 }
 
-type StackGap = 'small' | 'medium' | 'large'
-
-const gapMap: { [key in StackGap]: string } = {
-  small: '2',
-  medium: '4',
-  large: '8',
-}
+type StackGap = 'none' | 'small' | 'medium' | 'large'
 
 const createStack = ({ vertical }: { vertical: boolean }) => {
   const StackComponent = ({
@@ -18,13 +12,14 @@ const createStack = ({ vertical }: { vertical: boolean }) => {
     justify = false,
     gap = 'medium',
   }: StackProps) => {
-    const gapClass = `gap-${gapMap[gap]}`
     return (
       <div
         className={`flex
-    ${gapClass}
     ${vertical ? 'flex-col' : 'flex-row'}
     ${justify ? 'justify-between' : ''}
+    ${gap === 'small' ? 'gap-2' : ''}
+    ${gap === 'medium' ? 'gap-4' : ''}
+    ${gap === 'large' ? 'gap-8' : ''}
     `}
       >
         {children}

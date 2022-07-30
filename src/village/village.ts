@@ -43,9 +43,12 @@ export const createRandomVillage = (lang: ValidLanguage): Village => {
 
   const institutions = createVillageInstitutions(size)
 
-  const inns = institutions
-    .filter(i => i.type === 'inn')
-    .map(_ => createRandomInn(lang))
+  const inns = [
+    ...institutions
+      .filter(i => i.type === 'inn')
+      .map(_ => createRandomInn(lang)),
+    createRandomInn(lang),
+  ]
   const sortedInns: Inn[] = sortByProperty('name', inns, 'desc')
 
   const institutionsWithoutInns = institutions.filter(i => i.type !== 'inn')
@@ -128,7 +131,7 @@ const leaderOddities = [
   'confusing',
   'brutal',
   'cunning',
-  'ster',
+  'stern',
   'secret',
   'drunkard',
 ] as const
