@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 export const Sidebar = () => {
   const { t } = useTranslation()
   return (
-    <div className="flex w-64 min-w-[16rem] flex-col gap-4 border-r bg-white shadow-sm">
+    <div className="flex min-w-[16rem] flex-col gap-4 border-r bg-white shadow-sm lg:w-64">
       <header className="p-4 font-bold hover:text-red-500">
         <Link href="/">Yxans Klagan</Link>
       </header>

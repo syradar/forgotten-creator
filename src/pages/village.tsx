@@ -71,7 +71,7 @@ const VillageView = ({ village }: VillageViewProps) => {
       </div>
 
       <Stack.Vertical>
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-4">
           <Stat flexGreedy label={t('village:Inhabitants')}>
             {village.inhabitants} st
           </Stat>
@@ -85,7 +85,7 @@ const VillageView = ({ village }: VillageViewProps) => {
 
         <section>
           <div className="mb-2 text-xl font-bold">{t('village:Quirks')}</div>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-4">
             <Stat flexGreedy label={t('village:Problems.Problem')}>
               {t(transCombine('village:Problems', village.problem))}
             </Stat>
@@ -117,29 +117,33 @@ const VillageView = ({ village }: VillageViewProps) => {
             </div>
           </section>
         )}
-        <section className="flex flex-col gap-4">
-          <div className="text-xl font-bold">
-            {t('village:Institutions.Institutions')}
-          </div>
-          <Stack.Vertical>
-            {village.inns.length !== 0 &&
-              village.inns.map(inn => (
-                <InnView key={inn.id} inn={inn}></InnView>
-              ))}
-            {village.institutions.length !== 0 && (
-              <div className="grid grid-cols-3 gap-4">
-                {village.institutions.map(institution => (
-                  <div
-                    key={institution.id}
-                    className="rounded border p-4 font-medium"
-                  >
-                    {t(transCombine('village:Institutions', institution.type))}
-                  </div>
+        {(village.inns.length > 0 || village.institutions.length > 0) && (
+          <section className="flex flex-col gap-4">
+            <div className="text-xl font-bold">
+              {t('village:Institutions.Institutions')}
+            </div>
+            <Stack.Vertical>
+              {village.inns.length !== 0 &&
+                village.inns.map(inn => (
+                  <InnView key={inn.id} inn={inn}></InnView>
                 ))}
-              </div>
-            )}
-          </Stack.Vertical>
-        </section>
+              {village.institutions.length !== 0 && (
+                <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+                  {village.institutions.map(institution => (
+                    <div
+                      key={institution.id}
+                      className="rounded border p-4 font-medium"
+                    >
+                      {t(
+                        transCombine('village:Institutions', institution.type),
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Stack.Vertical>
+          </section>
+        )}
       </Stack.Vertical>
     </Parchment2>
   )
@@ -152,7 +156,7 @@ const InnView = ({ inn }: { inn: Inn }) => {
       <div className="text-sm">{t('village:Inns.Inn')}</div>
       <div className="mb-2 font-bold">{inn.name}</div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-4">
         <div>
           <div className="text-sm">{t('village:Inns.Oddities.Oddity')}</div>
           <div className="font-medium">

@@ -9,7 +9,7 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   return (
     <>
-      <main className="flex h-screen bg-gray-100 text-gray-800">
+      <main className="flex h-screen flex-col bg-gray-100 text-gray-800 lg:flex-row">
         <Sidebar />
         <div className="w-full px-8 py-4">{children}</div>
       </main>
