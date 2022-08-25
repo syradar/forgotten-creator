@@ -45,7 +45,7 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => {
     props: {
       ...(await serverSideTranslations(
         locale,
-        ['common', 'sidebar', 'home', 'village'],
+        ['common', 'sidebar', 'home', 'village', 'names'],
         nextI18nextConfig,
       )),
       // Will be passed to the page component as props

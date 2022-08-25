@@ -16,6 +16,9 @@ export const Sidebar = () => {
           <li>
             <SidebarLink to="/village">{t('sidebar:Menu.Village')}</SidebarLink>
           </li>
+          <li>
+            <SidebarLink to="/names">{t('sidebar:Menu.Names')}</SidebarLink>
+          </li>
         </ul>
       </nav>
       <div className="mt-auto mb-4">
