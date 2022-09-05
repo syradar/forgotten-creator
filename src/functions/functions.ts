@@ -11,11 +11,15 @@ export const propertyComparator = <T>(
     const aVal = a[key]
     const bVal = b[key]
 
-    if (order === 'asc') {
-      return aVal < bVal ? 1 : aVal > bVal ? -1 : 0
+    if (aVal === bVal) {
+      return 0
     }
 
-    return aVal < bVal ? -1 : aVal > bVal ? 1 : 0
+    if (order === 'asc') {
+      return aVal < bVal ? -1 : 1
+    }
+
+    return aVal < bVal ? 1 : -1
   }
 }
 
