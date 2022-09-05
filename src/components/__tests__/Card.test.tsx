@@ -12,3 +12,11 @@ describe('Card', () => {
     expect(getByText('Card Header')).toBeInTheDocument()
   })
 })
+
+describe('CardHeader', () => {
+  it('renders', () => {
+    const { getByText } = render(<CardHeader>Card Header</CardHeader>)
+
+    expect(getByText('Card Header')).toBeInTheDocument()
+  })
+})
