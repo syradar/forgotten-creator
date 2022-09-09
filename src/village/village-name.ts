@@ -1,19 +1,17 @@
 import { capitalize } from '../functions/functions'
 import { choose } from '../functions/random'
-import { ValidLanguage } from './language'
+import { LanguageStringMap } from '../names/name-generator'
 
-export const createRandomVillageName = (lang: ValidLanguage): string => {
-  if (lang === 'en') {
-    const prefix = choose(villageNamePrefixesEn)
-    const suffix = choose(villageNameSuffixesEn)
+export const createRandomVillageName = (): LanguageStringMap => {
+  const svPrefix = choose(villageNamePrefixesSv)
+  const svSuffix = choose(villageNameSuffixesSv)
 
-    return `${capitalize(prefix)} ${capitalize(suffix)}`
+  const enPrefix = choose(villageNamePrefixesEn)
+  const enSuffix = choose(villageNameSuffixesEn)
+  return {
+    sv: `${capitalize(svPrefix)}${svSuffix}`,
+    en: `${capitalize(enPrefix)} ${capitalize(enSuffix)}`,
   }
-
-  const prefix = choose(villageNamePrefixesSv)
-  const suffix = choose(villageNameSuffixesSv)
-
-  return `${capitalize(prefix)}${suffix}`
 }
 
 const villageNamePrefixesSv = [

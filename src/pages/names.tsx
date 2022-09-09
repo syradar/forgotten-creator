@@ -7,22 +7,19 @@ import { useTranslation } from 'react-i18next'
 import nextI18nextConfig from '../../next-i18next.config'
 import { Button } from '../components/Button'
 import { PlusIcon } from '../components/icons/PlusIcon'
+import { Name } from '../components/Name'
 import { range } from '../functions/functions'
-import { getHumanName, Name } from '../names/name-generator'
-import { ValidLanguage } from '../village/language'
+import { getHumanName, LanguageNameMap } from '../names/name-generator'
 // import { trpc } from '../utils/trpc'
 
 const VillagePage: NextPage = () => {
-  const { t, i18n } = useTranslation()
-  const [names, setNames] = useState<Name[]>()
+  const { t } = useTranslation()
+
+  const [names, setNames] = useState<LanguageNameMap[]>()
 
   const nameCreator = useCallback(
-    () =>
-      range(10).map(() =>
-        getHumanName('alderlander', 'male', i18n.language as ValidLanguage),
-      ),
-
-    [i18n.language],
+    () => range(10).map(() => getHumanName('alderlander', 'male')),
+    [],
   )
 
   useEffect(() => {
@@ -51,15 +48,7 @@ const VillagePage: NextPage = () => {
             {t('names:GenerateNames')}
           </Button>
         </header>
-        {names &&
-          names.map(name => (
-            <div key={name.id}>
-              {name.firstName}
-              {name?.familyName && ` ${name.familyName}`}
-              {name?.homeName && ` ${t('names:OF')} ${name.homeName}`}
-              {name?.nickName && ` ${t('names:THE')} ${name.nickName}`}
-            </div>
-          ))}
+        {names && names.map(name => <Name key={name.id} name={name} />)}
       </div>
     </>
   )

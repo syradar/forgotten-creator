@@ -114,7 +114,8 @@
     "temple": "Temple",
     "militia": "Militia",
     "tavern": "Tavern",
-    "stable": "Stable"
+    "stable": "Stable",
+    "Owner": "Owner"
   },
   "Inns": {
     "Inn": "Inn",

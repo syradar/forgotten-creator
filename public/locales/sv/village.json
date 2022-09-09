@@ -114,7 +114,8 @@
     "temple": "Tempel",
     "militia": "Milis",
     "tavern": "Taverna",
-    "stable": "Stall"
+    "stable": "Stall",
+    "Owner": "Ägare"
   },
   "Inns": {
     "Inn": "Värdshus",

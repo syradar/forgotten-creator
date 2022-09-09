@@ -4,29 +4,39 @@ import { ValidLanguage } from '../village/language'
 import { createRandomVillageName } from '../village/village-name'
 
 export type Gender = 'male' | 'female'
+export const randomGender = (): Gender => choose(['male', 'female'])
 
 export type Kin = 'human'
 
 export type HumanKin = 'alderlander' | 'aslene' | 'ailander'
 
 export interface Name {
-  id: string
   firstName: string
   familyName?: string
-  homeName?: string
+  homeName?: LanguageStringMap
   nickName?: string
 }
+
+export type LanguageNameMap = { [L in ValidLanguage]: Name } & { id: string }
+export type LanguageStringMap = { [L in ValidLanguage]: string }
 
 export const getHumanName = (
   humanKin: HumanKin,
   gender: Gender,
-  lang: ValidLanguage,
-): Name => {
+): LanguageNameMap => {
   if (humanKin === 'alderlander') {
-    return getAlderlanderName(gender, lang)
+    return {
+      id: nanoid(),
+      sv: getAlderlanderName(gender, 'sv'),
+      en: getAlderlanderName(gender, 'en'),
+    }
   }
 
-  return { id: nanoid(), firstName: '' }
+  return {
+    id: nanoid(),
+    sv: { firstName: '' },
+    en: { firstName: '' },
+  }
 }
 const ALDERLANDER_NAME_TYPES: WeightedChoice<NameType>[] = [
   {
@@ -43,7 +53,7 @@ const ALDERLANDER_NAME_TYPES: WeightedChoice<NameType>[] = [
   },
 ]
 
-const getAlderlanderName = (gender: Gender, lang: ValidLanguage): Name => {
+const getAlderlanderName = (gender: Gender, _lang: ValidLanguage): Name => {
   const type = getNameType(ALDERLANDER_NAME_TYPES)
   const firstName = choose(
     gender === 'female'
@@ -52,11 +62,11 @@ const getAlderlanderName = (gender: Gender, lang: ValidLanguage): Name => {
   )
 
   return {
-    id: nanoid(),
     firstName,
-    familyName:
-      type === 'familyName' ? choose(ALDERLANDER_FAMILY_NAMES) : undefined,
-    homeName: type === 'homeName' ? createRandomVillageName(lang) : undefined,
+    ...(type === 'familyName'
+      ? { familyName: choose(ALDERLANDER_FAMILY_NAMES) }
+      : {}),
+    ...(type === 'homeName' ? { homeName: createRandomVillageName() } : {}),
   }
 }
 

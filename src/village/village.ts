@@ -10,13 +10,14 @@ import {
   WeightedChoice,
   weightedRandom,
 } from '../functions/random'
+import { getHumanName, LanguageStringMap } from '../names/name-generator'
+import { Character } from '../npc/npc'
 import { Mapping } from '../utils/types'
 import { createRandomInn, Inn } from './inn'
-import { ValidLanguage } from './language'
 import { createRandomVillageName } from './village-name'
 
 export interface Village {
-  name: string
+  name: LanguageStringMap
   size: VillageSize
   inhabitants: number
   age: number
@@ -32,7 +33,7 @@ export interface Village {
   inns: Inn[]
 }
 
-export const createRandomVillage = (lang: ValidLanguage): Village => {
+export const createRandomVillage = (): Village => {
   const roll = rollD6()
   const { size, inhabitantMinMax } = d6ToSizeOfVillage[roll]
 
@@ -45,7 +46,7 @@ export const createRandomVillage = (lang: ValidLanguage): Village => {
 
   const inns = institutions
     .filter(i => i.type === 'inn')
-    .map(_ => createRandomInn(lang))
+    .map(_ => createRandomInn())
   const sortedInns: Inn[] = sortByProperty('name', inns, 'desc')
 
   const institutionsWithoutInns = institutions.filter(i => i.type !== 'inn')
@@ -56,7 +57,7 @@ export const createRandomVillage = (lang: ValidLanguage): Village => {
   )
 
   return {
-    name: createRandomVillageName(lang),
+    name: createRandomVillageName(),
     size,
     inhabitants,
     age,
@@ -262,6 +263,7 @@ export type VillageInstitution = {
   id: string
   type: VillageInstitutionType
   name?: string
+  owner: Character
 }
 
 const villageInstitutionsWithWeights: WeightedChoice<VillageInstitutionType>[] =
@@ -298,6 +300,9 @@ const createVillageInstitutions = (
     .map(_ => ({
       id: nanoid(),
       type: weightedRandom(villageInstitutionsWithWeights).value,
+      owner: {
+        name: getHumanName('alderlander', 'male'),
+      },
     }))
     .filter(i => i.type !== 'nothing')
 }

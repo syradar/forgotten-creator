@@ -3,15 +3,18 @@ import { choose, WeightedChoice, weightedRandom } from '../functions/random'
 import { ValidLanguage } from './language'
 
 export type Inn = {
-  name: string
+  name: { [L in ValidLanguage]: string }
   id: string
   oddity: InnOddity
   speciality: InnSpecialty
   guest: InnGuest
 }
 
-export const createRandomInn = (lang: ValidLanguage): Inn => {
-  const name = createRandomInnName(lang)
+export const createRandomInn = (): Inn => {
+  const name = {
+    sv: createRandomInnName('sv'),
+    en: createRandomInnName('en'),
+  }
   const { oddity, guest, speciality } =
     weightedRandom(innQuirksWithWeights).value
 

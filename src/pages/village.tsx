@@ -2,33 +2,34 @@ import type { NextPage } from 'next'
 import { i18n } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import nextI18nextConfig from '../../next-i18next.config'
 import { Button } from '../components/Button'
 import { CardHeader } from '../components/Card'
 import { PlusIcon } from '../components/icons/PlusIcon'
+import { LabelValue } from '../components/LabelValue'
+import { Name } from '../components/Name'
 import { Parchment2 } from '../components/Parchment2'
 import { Stack } from '../components/Stack'
 import { Stat } from '../components/Stat'
 import { tc } from '../functions/functions'
+import { useValidLanguage } from '../hooks/useValidLanguage'
 import { Inn } from '../village/inn'
-import { ValidLanguage } from '../village/language'
 import { createRandomVillage, Village } from '../village/village'
 // import { trpc } from '../utils/trpc'
 
-const VillagePage: NextPage = () => {
-  const { t, i18n } = useTranslation()
-  const [village, setVillage] = useState<Village>()
+const VillagePage: NextPage<{ _village: Village }> = ({
+  _village,
+}: {
+  _village: Village
+}) => {
+  const { t } = useTranslation()
+  const [village, setVillage] = useState<Village>(_village)
 
-  const villageCreator = useCallback(
-    () => createRandomVillage(i18n.language as ValidLanguage),
-    [i18n.language],
-  )
-
-  useEffect(() => {
-    setVillage(villageCreator())
-  }, [villageCreator])
+  const handleNewVillage = useCallback(() => {
+    setVillage(createRandomVillage())
+  }, [])
 
   return (
     <>
@@ -47,7 +48,7 @@ const VillagePage: NextPage = () => {
 
           <p className="mb-4">{t('village:PageDescription')}</p>
 
-          <Button onClick={() => setVillage(villageCreator())}>
+          <Button onClick={() => handleNewVillage()}>
             <PlusIcon />
             {t('village:CreateNewVillage')}
           </Button>
@@ -63,10 +64,11 @@ interface VillageViewProps {
 }
 const VillageView = ({ village }: VillageViewProps) => {
   const { t } = useTranslation()
+  const currentLang = useValidLanguage()
 
   return (
     <Parchment2>
-      <CardHeader>{village.name}</CardHeader>
+      <CardHeader>{village.name[currentLang]}</CardHeader>
       <div className="mb-6">{t(tc('village:Size', village.size))}</div>
 
       <Stack.Vertical>
@@ -128,7 +130,14 @@ const VillageView = ({ village }: VillageViewProps) => {
                       key={institution.id}
                       className="rounded border p-4 font-medium"
                     >
-                      {t(tc('village:Institutions', institution.type))}
+                      <Stack.Vertical>
+                        <div>
+                          {t(tc('village:Institutions', institution.type))}
+                        </div>
+                        <LabelValue label={t('village:Institutions.Owner')}>
+                          <Name name={institution.owner.name} />
+                        </LabelValue>
+                      </Stack.Vertical>
                     </div>
                   ))}
                 </div>
@@ -143,32 +152,22 @@ const VillageView = ({ village }: VillageViewProps) => {
 
 const InnView = ({ inn }: { inn: Inn }) => {
   const { t } = useTranslation()
+  const currentLang = useValidLanguage()
   return (
     <div className="rounded bg-slate-100 p-4">
       <div className="text-sm">{t('village:Inns.Inn')}</div>
-      <div className="mb-2 font-bold">{inn.name}</div>
+      <div className="mb-2 font-bold">{inn.name[currentLang]}</div>
 
       <div className="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-4">
-        <div>
-          <div className="text-sm">{t('village:Inns.Oddities.Oddity')}</div>
-          <div className="font-medium">
-            {t(tc('village:Inns.Oddities', inn.oddity))}
-          </div>
-        </div>
-        <div>
-          <div className="text-sm">
-            {t('village:Inns.Specialities.Speciality')}
-          </div>
-          <div className="font-medium">
-            {t(tc('village:Inns.Specialities', inn.speciality))}
-          </div>
-        </div>
-        <div>
-          <div className="text-sm">{t('village:Inns.Guests.Guest')}</div>
-          <div className="font-medium">
-            {t(tc('village:Inns.Guests', inn.guest))}
-          </div>
-        </div>
+        <LabelValue label={t('village:Inns.Oddities.Oddity')}>
+          {t(tc('village:Inns.Oddities', inn.oddity))}
+        </LabelValue>
+        <LabelValue label={t('village:Inns.Specialities.Speciality')}>
+          {t(tc('village:Inns.Specialities', inn.speciality))}
+        </LabelValue>
+        <LabelValue label={t('village:Inns.Guests.Guest')}>
+          {t(tc('village:Inns.Guests', inn.guest))}
+        </LabelValue>
       </div>
     </div>
   )
@@ -188,6 +187,7 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => {
         ['common', 'sidebar', 'home', 'village'],
         nextI18nextConfig,
       )),
+      _village: createRandomVillage(),
       // Will be passed to the page component as props
     },
   }
