@@ -1,6 +1,8 @@
 import { nanoid } from 'nanoid'
 import { choose, WeightedChoice, weightedRandom } from '../functions/random'
+import { Character } from '../npc/npc'
 import { ValidLanguage } from './language'
+import { VillageInstitution } from './village'
 
 export type Inn = {
   name: { [L in ValidLanguage]: string }
@@ -8,9 +10,10 @@ export type Inn = {
   oddity: InnOddity
   speciality: InnSpecialty
   guest: InnGuest
+  owner: Character
 }
 
-export const createRandomInn = (): Inn => {
+export const createRandomInn = ({ owner }: VillageInstitution): Inn => {
   const name = {
     sv: createRandomInnName('sv'),
     en: createRandomInnName('en'),
@@ -24,6 +27,7 @@ export const createRandomInn = (): Inn => {
     oddity,
     speciality,
     guest,
+    owner,
   }
 }
 

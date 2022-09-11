@@ -46,7 +46,7 @@ export const createRandomVillage = (): Village => {
 
   const inns = institutions
     .filter(i => i.type === 'inn')
-    .map(_ => createRandomInn())
+    .map(i => createRandomInn(i))
   const sortedInns: Inn[] = sortByProperty('name', inns, 'desc')
 
   const institutionsWithoutInns = institutions.filter(i => i.type !== 'inn')

@@ -12,9 +12,9 @@ export type HumanKin = 'alderlander' | 'aslene' | 'ailander'
 
 export interface Name {
   firstName: string
-  familyName?: string
-  homeName?: LanguageStringMap
-  nickName?: string
+  familyName: string | null
+  homeName: string | null
+  nickName: string | null
 }
 
 export type LanguageNameMap = { [L in ValidLanguage]: Name } & { id: string }
@@ -25,17 +25,31 @@ export const getHumanName = (
   gender: Gender,
 ): LanguageNameMap => {
   if (humanKin === 'alderlander') {
+    const { firstName, type } = getAlderlanderName(gender)
+    const familyName = choose(ALDERLANDER_FAMILY_NAMES)
+    const { en: homeNameEn, sv: homeNameSv } = createRandomVillageName()
+
     return {
       id: nanoid(),
-      sv: getAlderlanderName(gender, 'sv'),
-      en: getAlderlanderName(gender, 'en'),
+      sv: {
+        firstName,
+        familyName: type === 'familyName' ? familyName : null,
+        homeName: type === 'homeName' ? homeNameSv : null,
+        nickName: null,
+      },
+      en: {
+        firstName,
+        familyName: type === 'familyName' ? familyName : null,
+        homeName: type === 'homeName' ? homeNameEn : null,
+        nickName: null,
+      },
     }
   }
 
   return {
     id: nanoid(),
-    sv: { firstName: '' },
-    en: { firstName: '' },
+    sv: { firstName: '', familyName: null, homeName: null, nickName: null },
+    en: { firstName: '', familyName: null, homeName: null, nickName: null },
   }
 }
 const ALDERLANDER_NAME_TYPES: WeightedChoice<NameType>[] = [
@@ -53,7 +67,7 @@ const ALDERLANDER_NAME_TYPES: WeightedChoice<NameType>[] = [
   },
 ]
 
-const getAlderlanderName = (gender: Gender, _lang: ValidLanguage): Name => {
+const getAlderlanderName = (gender: Gender) => {
   const type = getNameType(ALDERLANDER_NAME_TYPES)
   const firstName = choose(
     gender === 'female'
@@ -63,10 +77,7 @@ const getAlderlanderName = (gender: Gender, _lang: ValidLanguage): Name => {
 
   return {
     firstName,
-    ...(type === 'familyName'
-      ? { familyName: choose(ALDERLANDER_FAMILY_NAMES) }
-      : {}),
-    ...(type === 'homeName' ? { homeName: createRandomVillageName() } : {}),
+    type,
   }
 }
 
